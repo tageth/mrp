@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="鐧惧害鍦板浘,鐧惧害鍦板浘API锛岀櫨搴﹀湴鍥捐嚜瀹氫箟宸ュ叿锛岀櫨搴﹀湴鍥炬墍瑙佸嵆鎵€寰楀伐鍏? />
+<meta name="description" content="鐧惧害鍦板浘API鑷畾涔夊湴鍥撅紝甯姪鐢ㄦ埛鍦ㄥ彲瑙嗗寲鎿嶄綔涓嬬敓鎴愮櫨搴﹀湴鍥? />
+<title>鐧惧害鍦板浘API鑷畾涔夊湴鍥?/title>
+<!--寮曠敤鐧惧害鍦板浘API-->
+<style type="text/css">
+    html,body{margin:0;padding:0;}
+    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+</head>
+
+<body>
+  <!--鐧惧害鍦板浘瀹瑰櫒-->
+  <div style="width:697px;height:550px;border:#ccc solid 1px;" id="dituContent"></div>
+</body>
+<script type="text/javascript">
+    //鍒涘缓鍜屽垵濮嬪寲鍦板浘鍑芥暟锛?
+    function initMap(){
+        createMap();//鍒涘缓鍦板浘
+        setMapEvent();//璁剧疆鍦板浘浜嬩欢
+        addMapControl();//鍚戝湴鍥炬坊鍔犳帶浠?
+        addMarker();//鍚戝湴鍥句腑娣诲姞marker
+        addPolyline();//鍚戝湴鍥句腑娣诲姞绾?
+        addRemark();//鍚戝湴鍥句腑娣诲姞鏂囧瓧鏍囨敞
+    }
+    
+    //鍒涘缓鍦板浘鍑芥暟锛?
+    function createMap(){
+        var map = new BMap.Map("dituContent");//鍦ㄧ櫨搴﹀湴鍥惧鍣ㄤ腑鍒涘缓涓€涓湴鍥?
+        var point = new BMap.Point(120.454208,36.15987);//瀹氫箟涓€涓腑蹇冪偣鍧愭爣
+        map.centerAndZoom(point,12);//璁惧畾鍦板浘鐨勪腑蹇冪偣鍜屽潗鏍囧苟灏嗗湴鍥炬樉绀哄湪鍦板浘瀹瑰櫒涓?
+        window.map = map;//灏唌ap鍙橀噺瀛樺偍鍦ㄥ叏灞€
+    }
+    
+    //鍦板浘浜嬩欢璁剧疆鍑芥暟锛?
+    function setMapEvent(){
+        map.enableDragging();//鍚敤鍦板浘鎷栨嫿浜嬩欢锛岄粯璁ゅ惎鐢?鍙笉鍐?
+        map.enableScrollWheelZoom();//鍚敤鍦板浘婊氳疆鏀惧ぇ缂╁皬
+        map.enableDoubleClickZoom();//鍚敤榧犳爣鍙屽嚮鏀惧ぇ锛岄粯璁ゅ惎鐢?鍙笉鍐?
+        map.enableKeyboard();//鍚敤閿洏涓婁笅宸﹀彸閿Щ鍔ㄥ湴鍥?
+    }
+    
+    //鍦板浘鎺т欢娣诲姞鍑芥暟锛?
+    function addMapControl(){
+        //鍚戝湴鍥句腑娣诲姞缂╂斁鎺т欢
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //鍚戝湴鍥句腑娣诲姞缂╃暐鍥炬帶浠?
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //鍚戝湴鍥句腑娣诲姞姣斾緥灏烘帶浠?
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    //鏍囨敞鐐规暟缁?
+    var markerArr = [{title:"甯傚寳浠撳簱",content:"浣嶄簬甯傚寳鐨勪粨搴?,point:"120.364521|36.09352",isOpen:0,icon:{w:21,h:21,l:115,t:46,x:1,lb:10}}
+		 ,{title:"甯傚崡浠撳簱",content:"浣嶄簬甯傚崡鐨勪粨搴?,point:"120.423162|36.088387",isOpen:0,icon:{w:21,h:21,l:115,t:46,x:1,lb:10}}
+		 ,{title:"宕傚北浠撳簱",content:"浣嶄簬宕傚北鐨勪粨搴?,point:"120.468006|36.123845",isOpen:0,icon:{w:21,h:21,l:115,t:46,x:1,lb:10}}
+		 ,{title:"娓犻亾",content:"娓犻亾鐨勪綅缃?,point:"120.508825|36.242699",isOpen:0,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
+		 ,{title:"鏉庢钵浠撳簱",content:"浣嶄簬鏉庢钵鐨勪粨搴?,point:"120.43811|36.205431",isOpen:0,icon:{w:21,h:21,l:115,t:46,x:1,lb:10}}
+		 ];
+    //鍒涘缓marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0,p1);
+			var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+			var iw = createInfoWindow(i);
+			var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+			marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                        borderColor:"#808080",
+                        color:"#333",
+                        cursor:"pointer"
+            });
+			
+			(function(){
+				var index = i;
+				var _iw = createInfoWindow(i);
+				var _marker = marker;
+				_marker.addEventListener("click",function(){
+				    this.openInfoWindow(_iw);
+			    });
+			    _iw.addEventListener("open",function(){
+				    _marker.getLabel().hide();
+			    })
+			    _iw.addEventListener("close",function(){
+				    _marker.getLabel().show();
+			    })
+				label.addEventListener("click",function(){
+				    _marker.openInfoWindow(_iw);
+			    })
+				if(!!json.isOpen){
+					label.hide();
+					_marker.openInfoWindow(_iw);
+				}
+			})()
+        }
+    }
+    //鍒涘缓InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+    //鍒涘缓涓€涓狪con
+    function createIcon(json){
+        var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+//鏍囨敞绾挎暟缁?
+    var plPoints = [{style:"solid",weight:4,color:"#f00",opacity:0.6,points:["120.510262|36.243747","120.532109|36.245144","120.553381|36.247007","120.533834|36.258183","120.520611|36.25958","120.496464|36.267495","120.475767|36.27541","120.436098|36.280065","120.424025|36.268426","120.434948|36.254458","120.438973|36.238158","120.440122|36.22232","120.438973|36.212536","120.440697|36.213002"]}
+		 ,{style:"solid",weight:4,color:"#f0f",opacity:0.6,points:["120.511412|36.242349","120.537283|36.225115","120.529234|36.195296","120.513712|36.177585","120.533834|36.161269","120.52751|36.140286","120.499914|36.145415","120.470593|36.123495","120.471168|36.123962"]}
+		 ,{style:"solid",weight:4,color:"#0ff",opacity:0.6,points:["120.507962|36.244212","120.543607|36.227444","120.542457|36.219059","120.530384|36.188305","120.520611|36.178517","120.537283|36.160802","120.532684|36.141218","120.510262|36.137487","120.480941|36.125361","120.467143|36.119297","120.466569|36.105301","120.463119|36.092237","120.448746|36.08337","120.436673|36.078703","120.422875|36.085237","120.422875|36.083837"]}
+		 ,{style:"solid",weight:4,color:"#000",opacity:0.6,points:["120.512562|36.245144","120.551656|36.224649","120.530384|36.176653","120.542457|36.153342","120.535558|36.137021","120.506813|36.130958","120.489565|36.124428","120.476342|36.111833","120.471743|36.098769","120.460244|36.082903","120.440122|36.070302","120.406202|36.071235","120.377457|36.082903","120.367108|36.093637","120.365383|36.09457"]}
+		 ];
+    //鍚戝湴鍥句腑娣诲姞绾垮嚱鏁?
+    function addPolyline(){
+		for(var i=0;i<plPoints.length;i++){
+			var json = plPoints[i];
+			var points = [];
+			for(var j=0;j<json.points.length;j++){
+				var p1 = json.points[j].split("|")[0];
+				var p2 = json.points[j].split("|")[1];
+				points.push(new BMap.Point(p1,p2));
+			}
+			var line = new BMap.Polyline(points,{strokeStyle:json.style,strokeWeight:json.weight,strokeColor:json.color,strokeOpacity:json.opacity});
+			map.addOverlay(line);
+		}
+	}
+//鏂囧瓧鏍囨敞鏁扮粍
+    var lbPoints = [{point:"120.367396|36.281345",content:"鎴戠殑鏍囪"}
+		 ];
+    //鍚戝湴鍥句腑娣诲姞鏂囧瓧鏍囨敞鍑芥暟
+    function addRemark(){
+        for(var i=0;i<lbPoints.length;i++){
+            var json = lbPoints[i];
+            var p1 = json.point.split("|")[0];
+            var p2 = json.point.split("|")[1];
+            var label = new BMap.Label("<div style='padding:2px;'>"+json.content+"</div>",{point:new BMap.Point(p1,p2),offset:new BMap.Size(3,-6)});
+            map.addOverlay(label);
+            label.setStyle({borderColor:"#999"});
+        }
+    }
+    
+    initMap();//鍒涘缓鍜屽垵濮嬪寲鍦板浘
+</script>
+</html>
